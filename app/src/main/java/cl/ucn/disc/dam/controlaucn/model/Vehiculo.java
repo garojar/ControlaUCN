@@ -15,7 +15,7 @@ public final  class Vehiculo {
      * Persona que inscribio el vehiculo
      */
     @Getter
-    private Persona dueño;
+    private Persona owner;
     /**
      * Placa patente
      */
