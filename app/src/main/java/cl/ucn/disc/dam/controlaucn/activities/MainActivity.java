@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        List<Vehiculo> listVehiculo = new ArrayList<>();
+        List<Vehiculo> listVehiculo = new ArrayList<Vehiculo>();
 
         Vehiculo v = Vehiculo.builder().marca("toyota").color("negro").modelo("nose").year("2020").build();
         Vehiculo v1 = Vehiculo.builder().marca("ford").color("blanco").modelo("fiesta").year("2017").build();
@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity  {
 
         this.listViewVehiculo = findViewById(R.id.listView);
 
-        this.vehiculoAdapter =  new ArrayAdapter<Vehiculo>(this,R.layout.item_vehiculo,listVehiculo);
+        this.vehiculoAdapter =  new ArrayAdapter<Vehiculo>(this,R.layout.item_vehiculo,R.id.text_owner,listVehiculo);
         listViewVehiculo.setAdapter(vehiculoAdapter);
 
     }
