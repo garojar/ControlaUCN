@@ -7,7 +7,10 @@ logger.lifecycle("Using Buildtime: ${BUILD_DATE_TIME}")
 // extraido de : https://en.wikipedia.org/wiki/List_of_Mr._Robot_episodes
 def VERSION_NAME  = "hellofriend.mov"
 
+
+
 apply plugin: 'com.android.application'
+
 
 android {
     compileSdkVersion 26
@@ -33,7 +36,7 @@ android {
 }
 
 dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    //implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:26.1.0'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     testImplementation 'junit:junit:4.12'
@@ -42,4 +45,10 @@ dependencies {
     //Lombok
     annotationProcessor 'org.projectlombok:lombok:1.16.18'
     compileOnly 'org.projectlombok:lombok:1.16.18'
+    // implementation 'com.android.support:support-core-utils:27.0.2'
+    implementation 'com.github.stfalcon:frescoimageviewer:0.5.0'
+    // DBFLow
+    annotationProcessor 'com.github.Raizlabs.DBFlow:dbflow-processor:4.1.2'
+    implementation 'com.github.Raizlabs.DBFlow:dbflow-core:4.1.2'
+    implementation 'com.github.Raizlabs.DBFlow:dbflow:4.1.2'
 }
