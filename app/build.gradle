@@ -1,3 +1,12 @@
+
+def BUILD_DATE_TIME = new Date().format("yywwuHHmm").toInteger()
+logger.lifecycle("Using Buildtime: ${BUILD_DATE_TIME}")
+
+
+// Episodes from Mr Robot
+// extraido de : https://en.wikipedia.org/wiki/List_of_Mr._Robot_episodes
+def VERSION_NAME  = "hellofriend.mov"
+
 apply plugin: 'com.android.application'
 
 android {
@@ -6,8 +15,8 @@ android {
         applicationId "cl.ucn.disc.dam.controlaucn"
         minSdkVersion 21
         targetSdkVersion 26
-        versionCode 1
-        versionName "1.0"
+        versionCode BUILD_DATE_TIME
+        versionName "${VERSION_NAME} ${BUILD_DATE_TIME}"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -24,10 +33,13 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:26.1.0'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+    //Lombok
+    annotationProcessor 'org.projectlombok:lombok:1.16.18'
+    compileOnly 'org.projectlombok:lombok:1.16.18'
 }
