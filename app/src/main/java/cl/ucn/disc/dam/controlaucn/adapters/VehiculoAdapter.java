@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -22,23 +24,32 @@ import lombok.extern.slf4j.Slf4j;
  * Created by Germán Rojo on 30-11-2017.
  */
 //@Slf4j
-public final class VehiculoAdapter extends BaseAdapter {
+public final class VehiculoAdapter extends BaseAdapter implements Filterable {
 
     /**
      * Listado de Vehiculos
      */
-    private ArrayList<Vehiculo> vehiculos;
+    private ArrayList<Vehiculo> listaVehiculos;
+    /**
+     * lista que tendra solo los elementos filtrado;
+     */
+    private ArrayList<Vehiculo> listaFilterVehiculos;
     /**
      * Contexto
      */
     private final Context context;
 
     /**
+     *
+     */
+    private Filter valueFilter;
+
+    /**
      * @param context
      */
     public VehiculoAdapter(final Context context,final ArrayList<Vehiculo> lista) {
         this.context = context;
-        this.vehiculos = lista;
+        this.listaVehiculos = lista;
     }
 
     /**
@@ -48,7 +59,7 @@ public final class VehiculoAdapter extends BaseAdapter {
      */
     @Override
     public int getCount() {
-        return vehiculos.size();
+        return listaVehiculos.size();
     }
 
     /**
@@ -59,7 +70,7 @@ public final class VehiculoAdapter extends BaseAdapter {
      */
     @Override
     public Vehiculo getItem(int position) {
-        return vehiculos.get(position);
+        return listaVehiculos.get(position);
     }
 
     /**
@@ -73,6 +84,49 @@ public final class VehiculoAdapter extends BaseAdapter {
         return i;
     }
 
+    /**
+     * Filter que realiza el filtrado , creando nueva listaVehiculos
+     * @return
+     */
+    @Override
+    public Filter getFilter() {
+        if (valueFilter == null) {
+            valueFilter = new Filter() {
+                @Override
+                protected Filter.FilterResults performFiltering(CharSequence constraint) {
+
+                    Filter.FilterResults results = new Filter.FilterResults();
+                    if (constraint != null && constraint.length() > 0) {
+                        ArrayList<Vehiculo> filterList = new ArrayList<Vehiculo>();
+
+                        for (int i = 0; i < getCount(); i++) {
+                            if (listaVehiculos.get(i).getPatente().contains(constraint)) {
+                                filterList.add(listaVehiculos.get(i));
+                            }
+                        }
+                        results.count = filterList.size();
+                        results.values = filterList;
+                    } else {
+                        results.count = listaVehiculos.size();
+                        results.values = listaVehiculos;
+                    }
+                    return results;
+                }
+
+                //Invoked in the UI thread to publish the filtering results in the user interface.
+                @SuppressWarnings("unchecked")
+                @Override
+                protected void publishResults(CharSequence constraint,
+                                              Filter.FilterResults results) {
+
+                    listaVehiculos = (ArrayList<Vehiculo>) results.values;
+                    notifyDataSetChanged();
+
+                }
+            };
+        }
+        return valueFilter;
+    }
     @Override
     public View getView(int i, View convertView, ViewGroup parent) {
         final ViewHolder holder;
@@ -121,6 +175,9 @@ public final class VehiculoAdapter extends BaseAdapter {
             this.patente = (ImageView)view.findViewById(R.id.image_patente);
         }
 
+
     }
+
+
 
 }
