@@ -2,13 +2,17 @@ package cl.ucn.disc.dam.controlaucn.model;
 
 import com.raizlabs.android.dbflow.annotation.Column;
 import com.raizlabs.android.dbflow.annotation.Database;
+import com.raizlabs.android.dbflow.annotation.OneToMany;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
+import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.raizlabs.android.dbflow.structure.BaseModel;
 
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 /**
  * Clase Vehiculo
@@ -17,55 +21,65 @@ import lombok.Getter;
  */
 @Builder
 @Table(database = Database.class)
-
-public final  class Vehiculo extends BaseModel{
+@AllArgsConstructor
+@NoArgsConstructor
+public final  class Vehiculo {
 
     /**
-     * Persona que inscribio el vehiculo
+     * id de la clase vehiculo
      */
-    @Column
     @Getter
-    private Persona dueño;
+    @Column
+    int idVehiculo;
+
+    /**
+     * id de Persona que inscribio el vehiculo
+     */
+    @Getter
+    @Column
+    int idDueño;
+
     /**
      * Placa patente
      */
     @Column
-    @PrimaryKey
     @Getter
-    private String patente;
+    String patente;
 
     /**
      * Marca productora
      */
     @Column
     @Getter
-    private String marca;
+    String marca;
 
     /**
      * Color asociado
      */
     @Column
     @Getter
-    private String color;
+    String color;
 
     /**
      * Modelo = version
      */
     @Getter
     @Column
-    private String modelo;
+    String modelo;
 
     /**
      * año de fabricacion
      */
     @Getter
     @Column
-    private String year;
+    String year;
 
     /**
      * Descripcion opcional sobre el vehiculo
      */
     @Getter
     @Column
-    private String nota;
+    String nota;
+
+
 }

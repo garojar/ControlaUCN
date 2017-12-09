@@ -3,7 +3,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="cl.ucn.disc.dam.controlaucn">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.VIBRATE"/>
+
     <application
+        android:name=".tasks.MyApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -19,3 +23,8 @@
     </application>
 
 </manifest>
+
+
+
+
+

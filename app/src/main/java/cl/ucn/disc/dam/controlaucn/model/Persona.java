@@ -6,15 +6,19 @@ import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
 import com.raizlabs.android.dbflow.structure.BaseModel;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 /**
  *@author  Germán Rojo on 30-11-2017.
  */
 @Builder
 @Table(database = Database.class)
-public final class Persona extends BaseModel{
+@NoArgsConstructor
+@AllArgsConstructor
+public final class Persona {
 
     /**
      * identificador de a persona

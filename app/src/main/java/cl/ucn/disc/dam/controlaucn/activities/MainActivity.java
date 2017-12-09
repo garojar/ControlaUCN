@@ -38,21 +38,12 @@ public class MainActivity extends ListActivity  {
         }
 
         //Vemos si la base de datos ya tiene oraciones
-        List<Vehiculo> vehiculoList = SQLite.select().from(Vehiculo.class).queryList();
-        if (vehiculoList.size() == 0) {
-            Persona p = Persona.builder().correo("dst005@alumnos.ucn.cl").nombre("Diego Saavedra Tapia").numCelular("962044443").rut("18.741.730-9").build();
-            Vehiculo v = Vehiculo.builder().color("rojo").dueño(p).marca("Kia").modelo("Frontier").patente("HH-12-EW").year("2000").nota("camion de carga 3/4").build();
-            p.save();
-            v.save();
-        }
+        //List<Vehiculo> vehiculoList = SQLite.select().from(Vehiculo.class).queryList();
+        //if (vehiculoList.size() == 0) {
 
-        List<Vehiculo> ListaDeVehiculos = SQLite.select().from(Vehiculo.class).queryList();
-
-        int cantidad = ListaDeVehiculos.size();
+        //}
 
 
-
-        Log.d(ListaDeVehiculos.get(0).getDueño().getNombre(),"sapbee");
 
 
 
