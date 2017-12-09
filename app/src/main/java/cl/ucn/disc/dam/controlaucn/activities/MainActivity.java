@@ -13,6 +13,7 @@ import java.util.List;
 
 import cl.ucn.disc.dam.controlaucn.R;
 import cl.ucn.disc.dam.controlaucn.adapters.VehiculoAdapter;
+import cl.ucn.disc.dam.controlaucn.model.Persona;
 import cl.ucn.disc.dam.controlaucn.model.Vehiculo;
 
 public class MainActivity extends AppCompatActivity  {
@@ -32,22 +33,24 @@ public class MainActivity extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        List<Vehiculo> listVehiculo = new ArrayList<Vehiculo>();
+        ArrayList<Vehiculo> listVehiculo = new ArrayList<Vehiculo>();
+        Persona p1 = Persona.builder().nombre("GERMAN").build();
+        Persona p2 = Persona.builder().nombre("DIEGO").build();
+        Persona p3 = Persona.builder().nombre("ANDRES").build();
+        Persona p4 = Persona.builder().nombre("IGNACIO").build();
 
-        Vehiculo v = Vehiculo.builder().marca("toyota").color("negro").modelo("nose").year("2020").build();
-        Vehiculo v1 = Vehiculo.builder().marca("ford").color("blanco").modelo("fiesta").year("2017").build();
-        Vehiculo v2 = Vehiculo.builder().marca("hyundai").color("amarillo").modelo("santa fe").year("2019").build();
-        Vehiculo v3 = Vehiculo.builder().marca("suzuki").color("azul").modelo("swift").year("2011").build();
+        Vehiculo v = Vehiculo.builder().marca("toyota").color("negro").modelo("nose").year("2020").owner(p1).build();
+        Vehiculo v1 = Vehiculo.builder().marca("ford").color("blanco").modelo("fiesta").year("2017").owner(p2).build();
+        Vehiculo v2 = Vehiculo.builder().marca("hyundai").color("amarillo").modelo("santa fe").year("2019").owner(p3).build();
+        Vehiculo v3 = Vehiculo.builder().marca("suzuki").color("azul").modelo("swift").year("2011").owner(p4).build();
 
         listVehiculo.add(v);
         listVehiculo.add(v1);
         listVehiculo.add(v2);
         listVehiculo.add(v3);
 
-
-        this.listViewVehiculo = findViewById(R.id.listView);
-
-        this.vehiculoAdapter =  new ArrayAdapter<Vehiculo>(this,R.layout.item_vehiculo,R.id.text_owner,listVehiculo);
+        this.vehiculoAdapter =  new VehiculoAdapter(this,listVehiculo);
+        this.listViewVehiculo = (ListView)findViewById(R.id.listView);
         listViewVehiculo.setAdapter(vehiculoAdapter);
 
     }

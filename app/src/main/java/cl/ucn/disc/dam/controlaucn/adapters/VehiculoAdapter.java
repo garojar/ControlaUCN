@@ -1,12 +1,15 @@
 package cl.ucn.disc.dam.controlaucn.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +27,7 @@ public final class VehiculoAdapter extends BaseAdapter {
     /**
      * Listado de Vehiculos
      */
-    private List<Vehiculo> vehiculos =  new ArrayList<>();
+    private ArrayList<Vehiculo> vehiculos;
     /**
      * Contexto
      */
@@ -33,8 +36,9 @@ public final class VehiculoAdapter extends BaseAdapter {
     /**
      * @param context
      */
-    public VehiculoAdapter(final Context context) {
+    public VehiculoAdapter(final Context context,final ArrayList<Vehiculo> lista) {
         this.context = context;
+        this.vehiculos = lista;
     }
 
     /**
@@ -44,7 +48,7 @@ public final class VehiculoAdapter extends BaseAdapter {
      */
     @Override
     public int getCount() {
-        return 0;
+        return vehiculos.size();
     }
 
     /**
@@ -55,7 +59,7 @@ public final class VehiculoAdapter extends BaseAdapter {
      */
     @Override
     public Vehiculo getItem(int position) {
-        return null;
+        return vehiculos.get(position);
     }
 
     /**
@@ -66,52 +70,55 @@ public final class VehiculoAdapter extends BaseAdapter {
      */
     @Override
     public long getItemId(int i) {
-        return 0;
+        return i;
     }
 
     @Override
-    public View getView(int i, View convertView, ViewGroup viewGroup) {
+    public View getView(int i, View convertView, ViewGroup parent) {
         final ViewHolder holder;
-        final View view;
+
 
         if(convertView == null){
             //si la vista no esta creada, se crea
-            view = LayoutInflater.from(context).inflate(R.layout.item_vehiculo,viewGroup,false);
-            holder = new ViewHolder(view);
-            view.setTag(holder);
+            convertView = LayoutInflater.from(context).
+                    inflate(R.layout.item_vehiculo,parent,false);
+            holder = new ViewHolder(convertView);
+            convertView.setTag(holder);
         }else{
-            view = convertView;
             holder = (ViewHolder) convertView.getTag();
         }
 
-        final Vehiculo vehiculo = this.getItem(i);
+
+        final Vehiculo vehiculo = (Vehiculo) getItem(i);
 
         if(vehiculo != null){
             holder.owner.setText(vehiculo.getOwner().getNombre());
             holder.marca.setText(vehiculo.getMarca());
             holder.year.setText(vehiculo.getYear());
             holder.tipo.setText(vehiculo.getModelo());
+        }else{
+            Log.d("VNUL","VEHICULO NULL");
         }
 
-        return view;
+        return convertView;
     }
 
     /**
      * Patron ViewHolder
      */
-    private static class ViewHolder{
+    private  class ViewHolder{
         TextView owner;
         TextView marca;
         TextView year;
         TextView tipo;
         ImageView patente;
 
-        ViewHolder(final View view){
-            this.owner = view.findViewById(R.id.text_owner);
-            this.marca = view.findViewById(R.id.text_marca);
-            this.year = view.findViewById(R.id.text_year);
-            this.tipo = view.findViewById(R.id.text_tipo);
-            this.patente = view.findViewById(R.id.image_patente);
+        public ViewHolder(final View view){
+            this.owner = (TextView) view.findViewById(R.id.text_owner);
+            this.marca =(TextView)view.findViewById(R.id.text_marca);
+            this.year = (TextView)view.findViewById(R.id.text_year);
+            this.tipo = (TextView)view.findViewById(R.id.text_tipo);
+            this.patente = (ImageView)view.findViewById(R.id.image_patente);
         }
 
     }
