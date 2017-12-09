@@ -29,6 +29,7 @@ public final  class Vehiculo {
      * id de la clase vehiculo
      */
     @Getter
+<<<<<<< HEAD
     @Column
     int idVehiculo;
 
@@ -39,6 +40,9 @@ public final  class Vehiculo {
     @Column
     int idDueño;
 
+=======
+    private Persona owner;
+>>>>>>> master
     /**
      * Placa patente
      */

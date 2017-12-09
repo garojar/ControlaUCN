@@ -9,7 +9,7 @@
     <LinearLayout
         android:id="@+id/layout_item"
         android:layout_width="match_parent"
-        android:layout_height="55dp"
+        android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <ImageView
@@ -17,7 +17,6 @@
             android:layout_width="218dp"
             android:layout_height="54dp"
             android:layout_weight="1"
-            android:contentDescription="@string"
             fresco:srcCompat="@mipmap/ic_launcher" />
 
         <LinearLayout
@@ -28,7 +27,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="29dp"
+                android:layout_height="41dp"
                 android:orientation="horizontal">
 
                 <TextView

@@ -6,4 +6,23 @@
     android:layout_height="match_parent"
     tools:context=".activities.MainActivity">
 
+    <LinearLayout
+        android:layout_width="385dp"
+        android:layout_height="510dp"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/editText_box"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="" />
+
+        <ListView
+            android:id="@+id/listView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:drawSelectorOnTop="false" />
+    </LinearLayout>
 </android.support.constraint.ConstraintLayout>
