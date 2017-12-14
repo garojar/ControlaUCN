@@ -1,6 +1,7 @@
 package cl.ucn.disc.dam.controlaucn.adapters;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +21,7 @@ import java.util.List;
 import java.util.Locale;
 
 import cl.ucn.disc.dam.controlaucn.R;
+import cl.ucn.disc.dam.controlaucn.activities.MainActivity;
 import cl.ucn.disc.dam.controlaucn.model.Vehiculo;
 import lombok.extern.slf4j.Slf4j;
 
@@ -144,6 +146,7 @@ public final class VehiculoAdapter extends BaseAdapter{
             holder.marca.setText(vehiculo.getMarca());
             holder.year.setText(vehiculo.getYear());
             holder.tipo.setText(vehiculo.getModelo());
+            holder.patente.setText(vehiculo.getPatente());
         }else{
             Log.d("VNUL","VEHICULO NULL");
         }
@@ -159,14 +162,17 @@ public final class VehiculoAdapter extends BaseAdapter{
         TextView marca;
         TextView year;
         TextView tipo;
-        ImageView patente;
+        TextView patente;
 
         public ViewHolder(final View view){
             this.owner = (TextView) view.findViewById(R.id.text_owner);
             this.marca =(TextView)view.findViewById(R.id.text_marca);
             this.year = (TextView)view.findViewById(R.id.text_year);
             this.tipo = (TextView)view.findViewById(R.id.text_tipo);
-            this.patente = (ImageView)view.findViewById(R.id.image_patente);
+            this.patente = (TextView) view.findViewById(R.id.text_patente);
+
+            Typeface typeface = Typeface.createFromAsset(context.getAssets(),"LicensePlate.ttf");
+            this.patente.setTypeface(typeface);
         }
 
 
