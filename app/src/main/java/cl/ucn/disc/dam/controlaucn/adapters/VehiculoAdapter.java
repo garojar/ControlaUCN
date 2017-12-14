@@ -11,10 +11,13 @@ import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.apache.commons.lang3.StringUtils;
 import org.w3c.dom.Text;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import cl.ucn.disc.dam.controlaucn.R;
 import cl.ucn.disc.dam.controlaucn.model.Vehiculo;
@@ -24,14 +27,14 @@ import lombok.extern.slf4j.Slf4j;
  * Created by Germán Rojo on 30-11-2017.
  */
 //@Slf4j
-public final class VehiculoAdapter extends BaseAdapter implements Filterable {
+public final class VehiculoAdapter extends BaseAdapter{
 
     /**
-     * Listado de Vehiculos
+     * Listado de Vehiculos original ( no debe ser modificada)
      */
     private ArrayList<Vehiculo> listaVehiculos;
     /**
-     * lista que tendra solo los elementos filtrado;
+     * lista que tendra solo los elementos filtrado y la que contiene los elementos a mostrar;
      */
     private ArrayList<Vehiculo> listaFilterVehiculos;
     /**
@@ -47,9 +50,10 @@ public final class VehiculoAdapter extends BaseAdapter implements Filterable {
     /**
      * @param context
      */
-    public VehiculoAdapter(final Context context,final ArrayList<Vehiculo> lista) {
+    public VehiculoAdapter(final Context context, final ArrayList<Vehiculo> lista) {
         this.context = context;
-        this.listaVehiculos = lista;
+        this.listaVehiculos = new ArrayList<Vehiculo>(lista);
+        this.listaFilterVehiculos = new ArrayList<Vehiculo>(lista);
     }
 
     /**
@@ -59,7 +63,7 @@ public final class VehiculoAdapter extends BaseAdapter implements Filterable {
      */
     @Override
     public int getCount() {
-        return listaVehiculos.size();
+        return listaFilterVehiculos.size();
     }
 
     /**
@@ -70,7 +74,7 @@ public final class VehiculoAdapter extends BaseAdapter implements Filterable {
      */
     @Override
     public Vehiculo getItem(int position) {
-        return listaVehiculos.get(position);
+        return listaFilterVehiculos.get(position);
     }
 
     /**
@@ -85,48 +89,34 @@ public final class VehiculoAdapter extends BaseAdapter implements Filterable {
     }
 
     /**
-     * Filter que realiza el filtrado , creando nueva listaVehiculos
+     * Metodo personalizado que realiza el proceso de filtrado modificando listaFilterVehiculos
+     * notificando cada vez que se realiza un cambio.
      * @return
      */
-    @Override
-    public Filter getFilter() {
-        if (valueFilter == null) {
-            valueFilter = new Filter() {
-                @Override
-                protected Filter.FilterResults performFiltering(CharSequence constraint) {
+    public void Filter(String charSequence) {
+        charSequence = charSequence.toUpperCase(Locale.getDefault());
+        listaFilterVehiculos.clear();
+        if (StringUtils.isEmpty(charSequence)) {
+            listaFilterVehiculos.addAll(listaVehiculos);
+        } else {
+            for (Vehiculo v : listaVehiculos) {
+                final String patentefromList = v.getPatente();
 
-                    Filter.FilterResults results = new Filter.FilterResults();
-                    if (constraint != null && constraint.length() > 0) {
-                        ArrayList<Vehiculo> filterList = new ArrayList<Vehiculo>();
-
-                        for (int i = 0; i < getCount(); i++) {
-                            if (listaVehiculos.get(i).getPatente().contains(constraint)) {
-                                filterList.add(listaVehiculos.get(i));
-                            }
-                        }
-                        results.count = filterList.size();
-                        results.values = filterList;
-                    } else {
-                        results.count = listaVehiculos.size();
-                        results.values = listaVehiculos;
-                    }
-                    return results;
+                if (patentefromList.contains(charSequence)) {
+                    listaFilterVehiculos.add(v);
                 }
-
-                //Invoked in the UI thread to publish the filtering results in the user interface.
-                @SuppressWarnings("unchecked")
-                @Override
-                protected void publishResults(CharSequence constraint,
-                                              Filter.FilterResults results) {
-
-                    listaVehiculos = (ArrayList<Vehiculo>) results.values;
-                    notifyDataSetChanged();
-
-                }
-            };
+            }
         }
-        return valueFilter;
+        notifyDataSetChanged();
     }
+
+    /**
+     * Se genera la vista para cada elemento
+     * @param i
+     * @param convertView
+     * @param parent
+     * @return
+     */
     @Override
     public View getView(int i, View convertView, ViewGroup parent) {
         final ViewHolder holder;
@@ -142,8 +132,12 @@ public final class VehiculoAdapter extends BaseAdapter implements Filterable {
             holder = (ViewHolder) convertView.getTag();
         }
 
+        if (listaFilterVehiculos.get(i) == null){
+            Log.d("ERROR","LISTAFILTERVEHICULOS VACIA AUN");
+        }
+       Vehiculo vehiculo = (Vehiculo) listaFilterVehiculos.get(i);
 
-        final Vehiculo vehiculo = (Vehiculo) getItem(i);
+        //final Vehiculo vehiculo = (Vehiculo) getItem(i);
 
         if(vehiculo != null){
             holder.owner.setText(vehiculo.getOwner().getNombre());

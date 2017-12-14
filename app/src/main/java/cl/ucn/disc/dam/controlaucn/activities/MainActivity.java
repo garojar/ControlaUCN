@@ -13,6 +13,8 @@ import android.widget.EditText;
 import android.widget.Filter;
 import android.widget.ListView;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
@@ -56,10 +58,6 @@ public class MainActivity extends AppCompatActivity  {
         listViewVehiculo.setAdapter(vehiculoAdapter);
 
         // listener que realizara ciertas acciones si encuentra un cambio en el editText
-
-        if(eText_box == null){
-            Log.d("ETE","EditText esta vacio");
-        }
         eText_box.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -69,12 +67,15 @@ public class MainActivity extends AppCompatActivity  {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-                vehiculoAdapter.getFilter().filter(charSequence);
+
+
+
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
-
+                String text =  editable.toString();
+                vehiculoAdapter.Filter(text);
             }
         });
 
