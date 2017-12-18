@@ -147,6 +147,7 @@ public final class VehiculoAdapter extends BaseAdapter{
             holder.year.setText(vehiculo.getYear());
             holder.tipo.setText(vehiculo.getModelo());
             holder.patente.setText(vehiculo.getPatente());
+
         }else{
             Log.d("VNUL","VEHICULO NULL");
         }
@@ -163,6 +164,7 @@ public final class VehiculoAdapter extends BaseAdapter{
         TextView year;
         TextView tipo;
         TextView patente;
+        TextView color;
 
         public ViewHolder(final View view){
             this.owner = (TextView) view.findViewById(R.id.text_owner);
