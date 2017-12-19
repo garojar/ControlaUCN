@@ -4,6 +4,7 @@ import com.raizlabs.android.dbflow.annotation.Column;
 import com.raizlabs.android.dbflow.annotation.Database;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
+import com.raizlabs.android.dbflow.annotation.Unique;
 import com.raizlabs.android.dbflow.structure.BaseModel;
 
 import lombok.AllArgsConstructor;
@@ -18,7 +19,7 @@ import lombok.NoArgsConstructor;
 @Table(database = Database.class)
 @NoArgsConstructor
 @AllArgsConstructor
-public final class Persona {
+public final class Persona extends cl.ucn.disc.dam.controlaucn.model.BaseModel {
 
     /**
      * identificador de a persona
@@ -26,12 +27,13 @@ public final class Persona {
     @Getter
     @Column
     @PrimaryKey(autoincrement= true)
-    int id ;
+    long id ;
     /**
      * Rut unico de cada persona
      */
     @Getter
     @Column
+    @Unique
     String rut;
 
     /**
@@ -40,6 +42,22 @@ public final class Persona {
     @Getter
     @Column
     String nombre;
+
+    /**
+     * apellido paterno
+     */
+
+    //@Column
+    //@Getter
+    //String paterno;
+
+    /**
+     * apellido materno
+     */
+    //@Getter
+    //@Column
+    //String materno;
+
     /**
      * Correo Electronico xxxx@yyy.zz
      */
@@ -53,7 +71,14 @@ public final class Persona {
     @Getter
     @Column
     String numCelular;
+    //puede ser Long
 
+    /**
+     * numero anexo de la persona
+     */
+    //@Getter
+    //@Column
+    //Integer anexo;
 
 
 

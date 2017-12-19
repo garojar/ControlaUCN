@@ -4,14 +4,10 @@ import android.app.ListActivity;
 import android.graphics.drawable.GradientDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-<<<<<<< HEAD
-import android.util.Log;
-=======
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.widget.ArrayAdapter;
->>>>>>> master
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.Filter;
@@ -19,12 +15,6 @@ import android.widget.ListView;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.List;
-
-import com.raizlabs.android.dbflow.config.FlowConfig;
-import com.raizlabs.android.dbflow.config.FlowManager;
-import com.raizlabs.android.dbflow.sql.language.SQLite;
-
 import java.util.List;
 
 import cl.ucn.disc.dam.controlaucn.R;
@@ -95,45 +85,22 @@ public class MainActivity extends AppCompatActivity  {
     private static ArrayList<Vehiculo> generarVehiculos(){
         ArrayList<Vehiculo> listVehiculo = new ArrayList<Vehiculo>();
 
-        Persona p1 = Persona.builder().nombre("GERMAN").build();
+        /**Persona p1 = Persona.builder().nombre("GERMAN").build();
         Persona p2 = Persona.builder().nombre("DIEGO").build();
         Persona p3 = Persona.builder().nombre("ANDRES").build();
         Persona p4 = Persona.builder().nombre("IGNACIO").build();
 
-<<<<<<< HEAD
-        //inicializacion de la base de datos
-        {
-            FlowManager.init(new FlowConfig.Builder(getApplicationContext())
-                    .openDatabasesOnInit(true)
-                    .build());
-        }
-
-        //Vemos si la base de datos ya tiene oraciones
-        //List<Vehiculo> vehiculoList = SQLite.select().from(Vehiculo.class).queryList();
-        //if (vehiculoList.size() == 0) {
-
-        //}
-
-
-
-
-
-            // Row division
-        int[] colors = {0, 0xFFFF0000, 0};
-        this.getListView().setDivider(new GradientDrawable(GradientDrawable.Orientation.RIGHT_LEFT, colors));
-        this.getListView().setDividerHeight(5);
-=======
         Vehiculo v = Vehiculo.builder().patente("BBXN65").marca("toyota").color("negro").modelo("nose").year("2020").owner(p1).build();
         Vehiculo v1 = Vehiculo.builder().patente("CFGC90").marca("ford").color("blanco").modelo("fiesta").year("2017").owner(p2).build();
         Vehiculo v2 = Vehiculo.builder().patente("GBDK67").marca("hyundai").color("amarillo").modelo("santa fe").year("2019").owner(p3).build();
         Vehiculo v3 = Vehiculo.builder().patente("JKLT34").marca("suzuki").color("azul").modelo("swift").year("2011").owner(p4).build();
->>>>>>> master
 
         listVehiculo.add(v);
         listVehiculo.add(v1);
         listVehiculo.add(v2);
         listVehiculo.add(v3);
-
+         **/
         return listVehiculo;
+
     }
 }

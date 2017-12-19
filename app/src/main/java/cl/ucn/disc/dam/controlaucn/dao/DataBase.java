@@ -7,7 +7,7 @@ import com.raizlabs.android.dbflow.annotation.Database;
  */
 
 @Database(name = DataBase.NAME, version = DataBase.VERSION)
-public class DataBase {
+public final class DataBase {
 
 
     /**
