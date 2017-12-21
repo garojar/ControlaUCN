@@ -2,13 +2,18 @@ package cl.ucn.disc.dam.controlaucn.activities;
 
 import android.app.AlertDialog;
 import android.app.ListActivity;
+import android.content.DialogInterface;
 import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -17,6 +22,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Filter;
 import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import org.apache.commons.lang3.StringUtils;
@@ -51,6 +58,15 @@ public class MainActivity extends AppCompatActivity  {
      */
     private TextWatcher txtWatcher;
 
+    /**
+     * Button Aceptar del AlertDialog OK
+     */
+    private Button button_gate_OK;
+
+    /**
+     * representacion de Puerta seleccionada por el usuario
+     */
+    private String gate;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -125,7 +141,70 @@ public class MainActivity extends AppCompatActivity  {
 
     }
 
+    /**
+     * Inflater del menu para la seleccion de entrada a registrar
+     * @param menu
+     * @return
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.item_menu, menu);
+        return true;
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.ic_gate:
+                AlertDialog.Builder mBuilder = new AlertDialog.Builder(MainActivity.this);
+                View mView = getLayoutInflater().inflate(R.layout.item_select_gate,null);
+                button_gate_OK = (Button) mView.findViewById(R.id.button_ok_gate);
+                final RadioGroup radioGroup = (RadioGroup)mView.findViewById(R.id.radioGroup);
+                mBuilder.setView(mView);
+
+                //marcamos la opcion si esque ya ha sido ingresada una
+                if(!StringUtils.isEmpty(gate)){
+                    switch (gate){
+                        case "Norte":
+                            radioGroup.check(R.id.radioButton);
+                        break;
+                        case "Centro":
+                            radioGroup.check(R.id.radioButton2);
+                        break;
+                        case "Sur":
+                            radioGroup.check(R.id.radioButton3);
+                        break;
+                    }
+                }
+
+                final AlertDialog dialog = mBuilder.create();
+                dialog.show();
+
+
+
+                button_gate_OK.setOnClickListener(new View.OnClickListener(){
+                    @Override
+                    public void onClick(View view) {
+
+                        //buscamos si hay una seleccion
+                        int id = radioGroup.getCheckedRadioButtonId();
+                        RadioButton radioButton = radioGroup.findViewById(id);
+                        int idchild = radioGroup.indexOfChild(radioButton);
+
+                        RadioButton selectedButton = (RadioButton) radioGroup.getChildAt(idchild);
+                        //se guarda como referencia la gate seleccionada
+                        gate = radioButton.getText().toString();
+
+                        dialog.cancel();
+                    }
+                });
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
     private static ArrayList<Vehiculo> generarVehiculos(){
         ArrayList<Vehiculo> listVehiculo = new ArrayList<Vehiculo>();
