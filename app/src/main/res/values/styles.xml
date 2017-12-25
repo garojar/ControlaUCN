@@ -9,13 +9,13 @@
     </style>
 
     <style name="ButtonOut" parent="Theme.AppCompat.Light">
-        <item name="colorControlHighlight">#FF5252</item>
-        <item name="colorButtonNormal">#D50000</item>
+        <item name="colorControlHighlight">@color/RojoLight</item>
+        <item name="colorButtonNormal">@color/Rojo</item>
     </style>
 
     <style name="ButtonIn" parent="Theme.AppCompat.Light">
-        <item name="colorControlHighlight">#76FF03</item>
-        <item name="colorButtonNormal">#689F38</item>
+        <item name="colorControlHighlight">@color/VerdeLight</item>
+        <item name="colorButtonNormal">@color/Verde</item>
     </style>
 
 </resources>

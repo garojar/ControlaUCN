@@ -6,6 +6,17 @@
     android:orientation="vertical">
 
     <TextView
+        android:id="@+id/text_situacion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:textSize="40px"
+        android:textStyle="bold"
+        android:textColor="@color/Rojo"
+        android:layout_marginTop="20dp"
+        android:text="No Registrado" />
+
+    <TextView
         android:id="@+id/text_patente_detail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -44,8 +55,7 @@
             android:layout_weight="1"
             android:theme="@style/ButtonIn"
             android:textColor="#FAFAFA"
-
-            android:text="IN" />
+            android:text="Ingreso" />
 
         <Button
             android:id="@+id/btn_out"
@@ -56,7 +66,7 @@
             android:layout_weight="1"
             android:theme="@style/ButtonOut"
             android:textColor="#FAFAFA"
-            android:text="OUT" />
+            android:text="Salida" />
 
     </LinearLayout>
 

@@ -166,6 +166,7 @@ public final class VehiculoAdapter extends BaseAdapter{
         TextView patente;
         TextView color;
 
+
         public ViewHolder(final View view){
             this.owner = (TextView) view.findViewById(R.id.text_owner);
             this.marca =(TextView)view.findViewById(R.id.text_marca);

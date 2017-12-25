@@ -1,8 +1,10 @@
 package cl.ucn.disc.dam.controlaucn.activities;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
 import android.provider.MediaStore;
@@ -25,6 +27,7 @@ import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -59,14 +62,11 @@ public class MainActivity extends AppCompatActivity  {
     private TextWatcher txtWatcher;
 
     /**
-     * Button Aceptar del AlertDialog OK
-     */
-    private Button button_gate_OK;
-
-    /**
      * representacion de Puerta seleccionada por el usuario
      */
     private String gate;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,12 +100,15 @@ public class MainActivity extends AppCompatActivity  {
             }
         });
 
+        //listener item de la listView , realiza en layoutInflater de vehiculo_detail mostrando los datos
         listViewVehiculo.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                final int pos = i;
                 Vehiculo item = vehiculoAdapter.getItem(i);
                 AlertDialog.Builder mBuilder = new AlertDialog.Builder(MainActivity.this);
-                View mView = getLayoutInflater().inflate(R.layout.item_vehiculo_detail,null);
+                final View mView = getLayoutInflater().inflate(R.layout.item_vehiculo_detail,null);
                 TextView tv_patente = (TextView) mView.findViewById(R.id.text_patente_detail);
                 TextView tv_marcaModelo = (TextView) mView.findViewById(R.id.text_marca_model);
                 TextView tv_nombre = (TextView) mView.findViewById(R.id.text_nombre_detail);
@@ -114,6 +117,7 @@ public class MainActivity extends AppCompatActivity  {
                 TextView tv_tipo = (TextView) mView.findViewById(R.id.text_tipo_detail);
                 TextView tv_celular =(TextView) mView.findViewById(R.id.text_celular_detail);
                 TextView tv_correo = (TextView) mView.findViewById(R.id.text_correo_detail);
+                TextView tv_registro = (TextView) mView.findViewById(R.id.text_situacion);
 
                 tv_patente.setText(item.getPatente());
                 tv_nombre.setText(item.getOwner().getNombre());
@@ -122,16 +126,71 @@ public class MainActivity extends AppCompatActivity  {
                 tv_year.setText(item.getYear());
                 tv_celular.setText(item.getOwner().getNumCelular());
                 tv_correo.setText(item.getOwner().getCorreo());
+                tv_registro.setText(item.getSituacion());
+
+                final String reg = tv_registro.getText().toString();
+
+                if(!StringUtils.isEmpty(reg) && reg.equals("Registrado") ){
+                    tv_registro.setTextColor(getResources().getColor(R.color.Verde));
+                }
 
 
                 Typeface typeface = Typeface.createFromAsset(getAssets(),"LicensePlate.ttf");
                 tv_patente.setTypeface(typeface);
-                Button bt_in = (Button) mView.findViewById(R.id.btn_out);
-                Button bt_out =(Button) mView.findViewById(R.id.btn_in);
+                Button bt_in = (Button) mView.findViewById(R.id.btn_in);
+                Button bt_out =(Button) mView.findViewById(R.id.btn_out);
 
                 mBuilder.setView(mView);
-                AlertDialog dialog = mBuilder.create();
+                final AlertDialog dialog = mBuilder.create();
+
+                bt_in.setOnClickListener(new View.OnClickListener(){
+
+                    /**
+                     * Cambia a situacion a registrado solo si esta en No Registrado
+                     * @param view
+                     */
+                    @Override
+                    public void onClick(View view) {
+                        if(!reg.equals("Registrado")) {
+
+                            //Se registrar y se cambia text a registrado
+                            Toast.makeText(MainActivity.this, "Ingresado Correctamente", Toast.LENGTH_SHORT).show();
+                            TextView reg = mView.findViewById(R.id.text_situacion);
+                            vehiculoAdapter.getItem(pos).setSituacion("Registrado");
+                            dialog.cancel();
+
+                        }else{
+                            Toast.makeText(MainActivity.this, "Error : Ya se encuentra Reg", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
+                bt_out.setOnClickListener(new View.OnClickListener(){
+
+                    /**
+                     * Cambia situacion a No registrado, solo si esta registrado
+                     * @param view
+                     */
+                    @Override
+                    public void onClick(View view) {
+                        if(reg.equals("Registrado")) {
+
+                            //Se registrar y se cambia text a No registrado
+                            Toast.makeText(MainActivity.this, "Salida Registrada Correctamente", Toast.LENGTH_SHORT).show();
+                            vehiculoAdapter.getItem(pos).setSituacion("No Registrado");
+                            dialog.cancel();
+
+                        }else{
+                            Toast.makeText(MainActivity.this, "Error: No se encuentra Registrado", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
                 dialog.show();
+
+
+
+
+
 
 
 
@@ -160,7 +219,7 @@ public class MainActivity extends AppCompatActivity  {
             case R.id.ic_gate:
                 AlertDialog.Builder mBuilder = new AlertDialog.Builder(MainActivity.this);
                 View mView = getLayoutInflater().inflate(R.layout.item_select_gate,null);
-                button_gate_OK = (Button) mView.findViewById(R.id.button_ok_gate);
+                Button button_gate_OK = (Button) mView.findViewById(R.id.button_ok_gate);
                 final RadioGroup radioGroup = (RadioGroup)mView.findViewById(R.id.radioGroup);
                 mBuilder.setView(mView);
 
@@ -218,7 +277,7 @@ public class MainActivity extends AppCompatActivity  {
         Persona p7 = Persona.builder().nombre("Jose Luis").build();
 
 
-        Vehiculo v = Vehiculo.builder().patente("BBXN65").marca("Toyota").color("Negro").modelo("Next").year("2020").owner(p1).build();
+        Vehiculo v = Vehiculo.builder().patente("BBXN65").marca("Toyota").color("Negro").modelo("Next").year("2020").owner(p1).situacion("No Registrado").build();
         Vehiculo v1 = Vehiculo.builder().patente("CFGC90").marca("Ford").color("Blanco").modelo("Fiesta").year("2017").owner(p2).build();
         Vehiculo v2 = Vehiculo.builder().patente("GBDK67").marca("Hyundai").color("Amarillo").modelo("Santa Fe").year("2019").owner(p3).build();
         Vehiculo v3 = Vehiculo.builder().patente("JKLT34").marca("Suzuki").color("Azul").modelo("Swift").year("2011").owner(p4).build();
