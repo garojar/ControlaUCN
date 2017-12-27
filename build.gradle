@@ -16,9 +16,11 @@ buildscript {
 }
 
 allprojects {
+    logger.lifecycle("Using buildDir : {}",buildDir)
     repositories {
         google()
         jcenter()
+        maven { url "https://www.jitpack.io" }
     }
 }
 

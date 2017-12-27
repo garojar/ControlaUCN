@@ -8,4 +8,11 @@
         android:title="selectGate"
         app:showAsAction="always|withText" />
 
+    <item android:id="@+id/ic_reg"
+        android:icon="@drawable/icon_reg"
+        android:enabled="true"
+        android:visible="true"
+        android:title="showReg"
+        app:showAsAction="always|withText" />
+
 </menu>

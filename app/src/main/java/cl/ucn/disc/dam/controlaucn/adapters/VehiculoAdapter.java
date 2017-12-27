@@ -12,6 +12,8 @@ import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.raizlabs.android.dbflow.sql.language.SQLite;
+
 import org.apache.commons.lang3.StringUtils;
 import org.w3c.dom.Text;
 
@@ -22,7 +24,10 @@ import java.util.Locale;
 
 import cl.ucn.disc.dam.controlaucn.R;
 import cl.ucn.disc.dam.controlaucn.activities.MainActivity;
+import cl.ucn.disc.dam.controlaucn.model.Persona;
+import cl.ucn.disc.dam.controlaucn.model.Persona_Table;
 import cl.ucn.disc.dam.controlaucn.model.Vehiculo;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -34,11 +39,13 @@ public final class VehiculoAdapter extends BaseAdapter{
     /**
      * Listado de Vehiculos original ( no debe ser modificada)
      */
-    private ArrayList<Vehiculo> listaVehiculos;
+    @Setter
+    private List<Vehiculo> listaVehiculos;
     /**
      * lista que tendra solo los elementos filtrado y la que contiene los elementos a mostrar;
      */
-    private ArrayList<Vehiculo> listaFilterVehiculos;
+    @Setter
+    private List<Vehiculo> listaFilterVehiculos;
     /**
      * Contexto
      */
@@ -52,7 +59,7 @@ public final class VehiculoAdapter extends BaseAdapter{
     /**
      * @param context
      */
-    public VehiculoAdapter(final Context context, final ArrayList<Vehiculo> lista) {
+    public VehiculoAdapter(final Context context, final List<Vehiculo> lista) {
         this.context = context;
         this.listaVehiculos = new ArrayList<Vehiculo>(lista);
         this.listaFilterVehiculos = new ArrayList<Vehiculo>(lista);
@@ -140,9 +147,9 @@ public final class VehiculoAdapter extends BaseAdapter{
        Vehiculo vehiculo = (Vehiculo) listaFilterVehiculos.get(i);
 
         //final Vehiculo vehiculo = (Vehiculo) getItem(i);
-
+        Persona owner = SQLite.select().from(Persona.class).where(Persona_Table.id.eq(vehiculo.getOwner().getId())).querySingle();//item.getOwner().getId();
         if(vehiculo != null){
-            holder.owner.setText(vehiculo.getOwner().getNombre());
+            holder.owner.setText(owner.getNombre());
             holder.marca.setText(vehiculo.getMarca());
             holder.year.setText(vehiculo.getYear());
             holder.tipo.setText(vehiculo.getModelo());
@@ -181,6 +188,10 @@ public final class VehiculoAdapter extends BaseAdapter{
 
     }
 
-
+    public void refreshFilterList(){
+        this.listaFilterVehiculos.clear();
+        this.listaFilterVehiculos.addAll(listaVehiculos);
+        notifyDataSetChanged();
+    }
 
 }
